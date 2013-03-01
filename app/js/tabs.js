@@ -219,9 +219,21 @@ Tabs.prototype.closeCurrent = function() {
 };
 
 Tabs.prototype.openFile = function() {
+  var openFileEntry = this.openFileEntry.bind(this);
   chrome.fileSystem.chooseEntry(
       {'type': 'openWritableFile'},
-      this.openFileEntry.bind(this));
+      function(entry) {
+        openFileEntry(entry);
+        $.event.trigger('fileopened');
+      });
+};
+
+Tabs.prototype.openDrive = function() {
+  // TODO get a file from google drive.
+  var drive = new GoogleDrive();
+  drive.auth(function() {
+    // TODO Ok, we are authed now.
+  });
 };
 
 Tabs.prototype.save = function(opt_tab, opt_close) {

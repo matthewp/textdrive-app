@@ -96,6 +96,17 @@ body.sidebar-open #sidebar {
   margin: 24px 0;
 }
 
+#file-menu-open-sources {
+  font-size: 70% !important;
+  overflow: hidden;
+  height: 0;
+  -webkit-transition: height 0.2s ease-in-out;
+}
+
+#file-menu-open-sources.open {
+  height: 80px;  
+}
+
 #tabs-list-container, #settings-container {
   display: -webkit-box;
   height: auto;

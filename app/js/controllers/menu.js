@@ -7,12 +7,15 @@ function MenuController(tabs) {
   $('#file-menu-open').click(this.open_.bind(this));
   $('#file-menu-save').click(this.save_.bind(this));
   $('#file-menu-saveas').click(this.saveas_.bind(this));
+  $('#file-menu-open-drive').click(this.openDrive_.bind(this));
+  $('#file-menu-open-local').click(this.openLocal_.bind(this));
   $(document).bind('newtab', this.onNewTab.bind(this));
   $(document).bind('tabchange', this.onTabChange.bind(this));
   $(document).bind('tabclosed', this.onTabClosed.bind(this));
   $(document).bind('tabrenamed', this.onTabRenamed.bind(this));
   $(document).bind('tabsave', this.onTabSave.bind(this));
   $(document).bind('switchtab', this.onSwitchTab.bind(this));
+  $(document).bind('fileopened', this.onFileOpened.bind(this));
 }
 
 MenuController.prototype.onNewTab = function(e, tab) {
@@ -47,12 +50,26 @@ MenuController.prototype.onSwitchTab = function(e, tab) {
   $('#tab' + tab.getId()).addClass('active');
 };
 
+MenuController.prototype.onFileOpened = function(e) {
+  $('#file-menu-open-sources').removeClass('open');
+};
+
 MenuController.prototype.newTab_ = function() {
   this.tabs_.newTab();
   return false;
 };
 
 MenuController.prototype.open_ = function() {
+  $('#file-menu-open-sources').toggleClass('open');
+  return false;
+};
+
+MenuController.prototype.openDrive_ = function() {
+  // TODO this
+  return false;
+};
+
+MenuController.prototype.openLocal_ = function() {
   this.tabs_.openFile();
   return false;
 };
