@@ -26,14 +26,13 @@ WindowController.prototype.close_ = function() {
 };
 
 WindowController.prototype.maximize_ = function() {
-  var maximized = window.outerHeight == window.screen.availHeight &&
-                  window.outerWidth == window.screen.availWidth;
+  var currWindow = window.chrome.app.window.current();
 
-  if (maximized) {
-    window.chrome.app.window.current().restore();
+  if (currWindow.isMaximized()) {
+    currWindow.restore();
     $('#window-maximize').attr('title', 'Maximize');
   } else {
-    window.chrome.app.window.current().maximize();
+    currWindow.maximize();
     $('#window-maximize').attr('title', 'Restore');
   }
 };
