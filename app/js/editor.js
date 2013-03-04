@@ -127,8 +127,12 @@ Editor.prototype.newSession = function(opt_content) {
 
   var undoManager = new UndoManager();
   session.setUndoManager(undoManager);
-  session.setUseWrapMode(true);
+  session.setUseWrapMode(this.settings_.get('wordwrap'));
   return session;
+};
+
+Editor.prototype.getSession = function() {
+  return this.editor_.getSession();
 };
 
 Editor.prototype.setSession = function(session) {

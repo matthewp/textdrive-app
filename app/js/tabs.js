@@ -362,5 +362,7 @@ Tabs.prototype.onSettingsChanged_ = function(e, key, value) {
     }
   } else if (key === 'theme') {
     this.editor_.setTheme(value);
+  } else if (key === 'wordwrap') {
+    this.editor_.getSession().setUseWrapMode(value);
   }
 };
