@@ -9,16 +9,41 @@ function Settings() {
     this.settings_[key] = Settings.SETTINGS[key]['default'];
     storageKeys['settings-' + key] = this.settings_[key];
   }
+  // Can be changed to chrome.storage.local.
+  this.storage_ = chrome.storage[Settings.AREA];
   chrome.storage.onChanged.addListener(this.onChanged_.bind(this));
-  chrome.storage.local.get(storageKeys,
-                           this.getSettingsCallback_.bind(this));
+  this.storage_.get(storageKeys, this.getSettingsCallback_.bind(this));
 }
 
+/**
+ * @type {string}
+ * 'sync' or 'local'.
+ */
+Settings.AREA = 'sync';
+
+/**
+ * @type {Object.<string, Object>}
+ */
 Settings.SETTINGS = {
+<<<<<<< HEAD:app/js/settings.js
   'autosave': {'default': false, 'type': 'boolean','widget': 'checkbox'},
   'tabsize': {'default': 8, 'type': 'integer', 'widget': 'number'},
   'theme': {'default': 'textdrive', 'type': 'string', 'widget': 'select'},
   'wordwrap': {'default': true, 'type': 'boolean', 'widget': 'checkbox'}
+=======
+  'autosave': {'default': false, 'type': 'boolean', 'widget': 'checkbox'},
+  // 'fontsize' is not shown in Settings tab, only changed with
+  // Ctrl-+ / Ctrl--
+  'fontsize': {'default': 14, 'type': 'number', 'widget': null},
+  'linenumbers': {'default': true, 'type': 'boolean', 'widget': 'checkbox'},
+  'margin': {'default': false, 'type': 'boolean', 'widget': 'checkbox'},
+  'margincol': {'default': 80, 'type': 'integer', 'widget': 'number'},
+  'smartindent': {'default': true, 'type': 'boolean', 'widget': 'checkbox'},
+  'spacestab': {'default': true, 'type': 'boolean', 'widget': 'checkbox'},
+  'tabsize': {'default': 2, 'type': 'integer', 'widget': 'number'},
+  'theme': {'default': 'default', 'type': 'string', 'widget': 'select'},
+  'wraplines': {'default': true, 'type': 'boolean', 'widget': 'checkbox'}
+>>>>>>> cf446eef7ce2d80d8a1c498742bb91951603c326:js/settings.js
 };
 
 /**
@@ -36,7 +61,7 @@ Settings.prototype.getAll = function() {
 Settings.prototype.set = function(key, value) {
   var item = {};
   item['settings-' + key] = value;
-  chrome.storage.local.set(item);
+  this.storage_.set(item);
   // this.settings_ will be updated in onChanged_ to keep them in sync with
   // storage.
 };
@@ -56,14 +81,17 @@ Settings.prototype.getSettingsCallback_ = function(settings) {
 };
 
 Settings.prototype.onChanged_ = function(changes, areaName) {
-  if (areaName !== 'local')
+  if (areaName !== Settings.AREA) {
+    console.warn('Storage change in wrong area. Maybe a bug?');
     return;
+  }
 
   for (var key in changes) {
     if (key.indexOf('settings-') !== 0)
       continue;
     var value = changes[key].newValue;
     key = key.substring(9);
+    console.log('Settings changed:', key, value);
     this.settings_[key] = value;
     $.event.trigger('settingschange', [key, value]);
   }

@@ -9,96 +9,36 @@ import sys
 import urllib.parse
 import urllib.request
 
-APP_NAME = 'TextDrive'
+APP_NAME = 'Text'
+IS_APP = True
 
 BASE_DIR = os.path.dirname(sys.argv[0])
-SOURCE_DIR = os.path.join(BASE_DIR, 'app')
+SOURCE_DIR = BASE_DIR
 BUILD_DIR = os.path.join(BASE_DIR, 'build')
 
 FILES = [
   'index.html',
-  'css/ace.css',
   'css/app.css',
+  'css/theme-dark.css',
+  'css/theme-default.css',
+  'css/theme-light.css',
   'icon/16x16.png',
+  'icon/32x32.png',
+  'icon/48x48.png',
+  'icon/64x64.png',
   'icon/96x96.png',
   'icon/128x128.png',
   'icon/256x256.png',
+  'images/check_no_box.png',
+  'images/check_no_box_white.png',
   'images/close.svg',
   'images/close-tab.svg',
   'images/maximize.svg',
   'images/menu.svg',
   'images/search.svg',
-  'js/background.js',
-  'js/util.js',
-  'lib/jquery-1.8.3.min.js',
-  'lib/ace/src-min-noconflict/ace.js',
-  'lib/ace/src-min-noconflict/mode-c_cpp.js',
-  'lib/ace/src-min-noconflict/mode-clojure.js',
-  'lib/ace/src-min-noconflict/mode-coffee.js',
-  'lib/ace/src-min-noconflict/mode-coldfusion.js',
-  'lib/ace/src-min-noconflict/mode-csharp.js',
-  'lib/ace/src-min-noconflict/mode-css.js',
-  'lib/ace/src-min-noconflict/mode-diff.js',
-  'lib/ace/src-min-noconflict/mode-golang.js',
-  'lib/ace/src-min-noconflict/mode-groovy.js',
-  'lib/ace/src-min-noconflict/mode-haxe.js',
-  'lib/ace/src-min-noconflict/mode-html.js',
-  'lib/ace/src-min-noconflict/mode-java.js',
-  'lib/ace/src-min-noconflict/mode-javascript.js',
-  'lib/ace/src-min-noconflict/mode-json.js',
-  'lib/ace/src-min-noconflict/mode-jsx.js',
-  'lib/ace/src-min-noconflict/mode-latex.js',
-  'lib/ace/src-min-noconflict/mode-less.js',
-  'lib/ace/src-min-noconflict/mode-liquid.js',
-  'lib/ace/src-min-noconflict/mode-luahtml.js',
-  'lib/ace/src-min-noconflict/mode-lua.js',
-  'lib/ace/src-min-noconflict/mode-luapage.js',
-  'lib/ace/src-min-noconflict/mode-markdown.js',
-  'lib/ace/src-min-noconflict/mode-ocaml.js',
-  'lib/ace/src-min-noconflict/mode-perl.js',
-  'lib/ace/src-min-noconflict/mode-pgsql.js',
-  'lib/ace/src-min-noconflict/mode-php.js',
-  'lib/ace/src-min-noconflict/mode-powershell.js',
-  'lib/ace/src-min-noconflict/mode-python.js',
-  'lib/ace/src-min-noconflict/mode-ruby.js',
-  'lib/ace/src-min-noconflict/mode-scad.js',
-  'lib/ace/src-min-noconflict/mode-scala.js',
-  'lib/ace/src-min-noconflict/mode-scss.js',
-  'lib/ace/src-min-noconflict/mode-sh.js',
-  'lib/ace/src-min-noconflict/mode-sql.js',
-  'lib/ace/src-min-noconflict/mode-svg.js',
-  'lib/ace/src-min-noconflict/mode-textile.js',
-  'lib/ace/src-min-noconflict/mode-text.js',
-  'lib/ace/src-min-noconflict/mode-xml.js',
-  'lib/ace/src-min-noconflict/mode-xquery.js',
-  'lib/ace/src-min-noconflict/mode-yaml.js',
-  'lib/ace/src-min-noconflict/theme-chrome.js',
-  'lib/ace/src-min-noconflict/theme-clouds.js',
-  'lib/ace/src-min-noconflict/theme-clouds_midnight.js',
-  'lib/ace/src-min-noconflict/theme-cobalt.js',
-  'lib/ace/src-min-noconflict/theme-crimson_editor.js',
-  'lib/ace/src-min-noconflict/theme-dawn.js',
-  'lib/ace/src-min-noconflict/theme-dreamweaver.js',
-  'lib/ace/src-min-noconflict/theme-eclipse.js',
-  'lib/ace/src-min-noconflict/theme-github.js',
-  'lib/ace/src-min-noconflict/theme-idle_fingers.js',
-  'lib/ace/src-min-noconflict/theme-kr_theme.js',
-  'lib/ace/src-min-noconflict/theme-merbivore.js',
-  'lib/ace/src-min-noconflict/theme-merbivore_soft.js',
-  'lib/ace/src-min-noconflict/theme-mono_industrial.js',
-  'lib/ace/src-min-noconflict/theme-monokai.js',
-  'lib/ace/src-min-noconflict/theme-pastel_on_dark.js',
-  'lib/ace/src-min-noconflict/theme-solarized_dark.js',
-  'lib/ace/src-min-noconflict/theme-solarized_light.js',
-  'lib/ace/src-min-noconflict/theme-textmate.js',
-  'lib/ace/src-min-noconflict/theme-tomorrow.js',
-  'lib/ace/src-min-noconflict/theme-tomorrow_night.js',
-  'lib/ace/src-min-noconflict/theme-tomorrow_night_blue.js',
-  'lib/ace/src-min-noconflict/theme-tomorrow_night_bright.js',
-  'lib/ace/src-min-noconflict/theme-tomorrow_night_eighties.js',
-  'lib/ace/src-min-noconflict/theme-twilight.js',
-  'lib/ace/src-min-noconflict/theme-vibrant_ink.js'
-]
+  'lib/CodeMirror/lib/codemirror.css',
+  'lib/jquery-1.8.3.min.js'
+ ]
 
 MANIFEST = 'manifest.json'
 INDEX_HTML = 'index.html'
@@ -108,8 +48,33 @@ TARGET_JS_INCLUDE = ('<script src="' + TARGET_JS + '" type="text/javascript">'
 JS_INCLUDES = re.compile(r'(<!-- JS -->.*<!-- /JS -->)', flags=re.M | re.S)
 JS_SRC = re.compile(r'<script src="([^"]*)" type="text/javascript">')
 CLOSURE_URL = 'http://closure-compiler.appspot.com/compile'
-JQUERY_EXTERNS = ('http://closure-compiler.googlecode.com/'
-                  'svn/trunk/contrib/externs/jquery-1.8.js')
+BACKGROUND_EXTERNS = os.path.join(SOURCE_DIR, 'js/externs.js')
+JS_EXTERNS = None
+EXTERNS_URLS = [
+  'https://closure-compiler.googlecode.com' +
+      '/svn/trunk/contrib/externs/jquery-1.8.js',
+  'https://closure-compiler.googlecode.com' +
+      '/git/contrib/externs/chrome_extensions.js',
+  'https://closure-compiler.googlecode.com' +
+      '/git/contrib/externs/google_analytics_api.js'
+]
+
+SKIP_JS_FILES = []
+
+USE_LOCALIZED_NAME = False
+COMPILATION_LEVEL = 'SIMPLE_OPTIMIZATIONS'
+BACKGROUND_COMPILATION_LEVEL = 'ADVANCED_OPTIMIZATIONS'
+
+debug_build = False
+
+
+def parse_command_line():
+  global debug_build
+  for option in sys.argv[1:]:
+    if option == '-d':
+      debug_build = True
+    else:
+      raise Exception('Unknown command line option: ' + option)
 
 
 def delete(*paths):
@@ -143,8 +108,28 @@ def get_version():
 
 def process_manifest(out_dir, version):
   manifest = json.load(open(os.path.join(SOURCE_DIR, MANIFEST)))
+  if USE_LOCALIZED_NAME:
+    manifest['name'] = '__MSG_extName__'
+  else:
+    manifest['name'] = APP_NAME
   manifest['version'] = version
-  json.dump(manifest, open(os.path.join(out_dir, MANIFEST), 'w'))
+
+  if IS_APP:
+    background_js = manifest['app']['background']['scripts']
+  else:
+    background_js = manifest['background']['scripts']
+
+  background_libs = set(f for f in background_js if f.startswith('lib'))
+  background_js = set(background_js) - background_libs
+  background_libs.add('js/background.js')
+
+  if IS_APP:
+    manifest['app']['background']['scripts'] = list(background_libs)
+  else:
+    manifest['background']['scripts'] = list(background_libs)
+
+  json.dump(manifest, open(os.path.join(out_dir, MANIFEST), 'w'), indent=2)
+  return list(background_js)
 
 
 def process_index(out_dir):
@@ -166,30 +151,48 @@ def process_index(out_dir):
 
 def print_errors(errors, js_files):
   for error in errors:
-    fileno = int(error['file'][6:])
+    if error['file'].find('Externs') >= 0:
+      filename = 'externs'
+    else:
+      fileno = int(error['file'][6:])
+      filename = js_files[fileno]
     if 'error' in error:
       text = error['error']
     else:
       text = error['warning']
-    print(js_files[fileno] + ':' + str(error['lineno']) + ' ' + text)
+    print(filename + ':' + str(error['lineno']) + ' ' + text)
     print(error['line'])
 
 
-def compile_js(out_dir, js_files):
+def compile_js(out_path, js_files, level, externs):
   print('Compiling JavaScript code.')
-  js_code = []
-  for js_file in js_files:
-    js_code.append(open(os.path.join(SOURCE_DIR, js_file)).read())
 
   params = [
-      ('compilation_level', 'SIMPLE_OPTIMIZATIONS'),
-      ('formatting', 'pretty_print'),
+      ('compilation_level', level),
+      ('language', 'ECMASCRIPT5_STRICT'),
       ('output_format', 'json'),
       ('output_info', 'statistics'),
       ('output_info', 'warnings'),
       ('output_info', 'errors'),
-      ('output_info', 'compiled_code'),
+      ('output_info', 'compiled_code')
     ]
+
+  if debug_build:
+    params.append(('formatting', 'pretty_print'))
+    js_code = ['/** @define {boolean} */\nvar DEBUG = true;']
+  else:
+    js_code = ['/** @define {boolean} */\nvar DEBUG = false;']
+
+  for js_file in js_files:
+    if os.path.basename(js_file) not in SKIP_JS_FILES:
+      js_code.append(open(os.path.join(SOURCE_DIR, js_file)).read())
+
+  if externs:
+    params.append(('js_externs', open(externs).read()))
+
+  for url in EXTERNS_URLS:
+    params.append(('externs_url', url))
+
   for code in js_code:
     params.append(('js_code', code))
 
@@ -210,24 +213,34 @@ def compile_js(out_dir, js_files):
     print_errors(result['warnings'], js_files)
     print()
 
-  all_js_dst = os.path.join(out_dir, TARGET_JS)
-  print('Writing', all_js_dst)
-  os.makedirs(os.path.dirname(all_js_dst), exist_ok=True)
-  open(all_js_dst, 'w').write(result['compiledCode'])
+  print('Writing', out_path)
+  os.makedirs(os.path.dirname(out_path), exist_ok=True)
+  open(out_path, 'w').write(result['compiledCode'])
 
 
 def main():
+  parse_command_line()
   version = get_version()
 
   dir_name = APP_NAME + '-' + version
+  if debug_build:
+    dir_name += '-dbg'
+  print(dir_name)
   out_dir = os.path.join(BUILD_DIR, dir_name)
   archive_path = out_dir + '.zip'
   delete(out_dir, archive_path)
   copy_files(SOURCE_DIR, out_dir, FILES)
 
-  process_manifest(out_dir, version)
+  background_js_files = process_manifest(out_dir, version)
+  compile_js(os.path.join(out_dir, 'js', 'background.js'),
+             background_js_files,
+             BACKGROUND_COMPILATION_LEVEL,
+             BACKGROUND_EXTERNS)
   js_files = process_index(out_dir)
-  compile_js(out_dir, js_files)
+  compile_js(os.path.join(out_dir, TARGET_JS),
+             js_files,
+             COMPILATION_LEVEL,
+             JS_EXTERNS)
 
   print('Archiving', archive_path)
   shutil.make_archive(out_dir, 'zip',

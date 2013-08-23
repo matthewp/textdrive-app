@@ -41,7 +41,7 @@ SettingsController.prototype.close_ = function() {
 
 SettingsController.prototype.showAll_ = function() {
   var settings = this.settings_.getAll();
-  for (key in settings) {
+  for (var key in settings) {
     this.show_(key, settings[key]);
   }
 };
@@ -73,6 +73,9 @@ SettingsController.prototype.onWidgetChange_ = function(key) {
       break;
     case 'select':
       value = thisSetting.val();
+      break;
+    case 'select':
+      value = $('#setting-' + key).val();
       break;
   }
 
